@@ -12,6 +12,7 @@
 #include <unordered_set>
 
 
+// constructor
 AugmentedSuffixArray::AugmentedSuffixArray(std::string_view _txt) :
         txt(_txt),
         n((uint32_t) txt.size()),
@@ -102,6 +103,7 @@ void AugmentedSuffixArray::construct_c_array() {
     }
 }
 
+// auxiliary function for coloured range listing
 void AugmentedSuffixArray::_crl_aux(size_t i, size_t j, size_t x, std::vector<size_t> &idx) {
     if (i > j) return;
     auto q = RMQ.query(i, j);
@@ -112,6 +114,7 @@ void AugmentedSuffixArray::_crl_aux(size_t i, size_t j, size_t x, std::vector<si
     _crl_aux(q + 1, j, x, idx);
 }
 
+// coloured range listing
 std::vector<size_t> AugmentedSuffixArray::crl(size_t i, size_t j) {
     std::vector<size_t> idx;
     _crl_aux(i, j, i, idx);
@@ -177,6 +180,7 @@ namespace std {
 }
 
 
+// single-nf baseline
 uint32_t AugmentedSuffixArray::single_nf_hash(std::string_view s) {
     auto lb = find_interval_lb(s);
     if (!lb.has_value()) return 0;
@@ -405,20 +409,10 @@ CompressedSuffixArray::CompressedSuffixArray(std::string_view _txt) : n(_txt.siz
 
     assert(sa.size() == n && lcp.size() == n);
     assert(sa[0] == n - 1);
-
-//    std::unordered_map<char, int> last_occ;
-//    for (int j = 0; j < n; j++) {
-//        auto k = sa[j];
-//        if (k == 0) continue;
-//        auto c = txt[k - 1]; // BWT[j]
-//        if (last_occ.find(c) != last_occ.end()) {
-//            C[j] = last_occ.at(c);
-//        }
-//        last_occ[c] = j;
-//    }
 }
 
 
+// single-nf baseline
 size_t CompressedSuffixArray::single_nf(std::string_view s) {
     auto [l, r] = sdsl::lex_interval(sa, s.begin(), s.end());
     if (l >= r) return 0;
