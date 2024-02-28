@@ -1,4 +1,4 @@
-# Efficient Computation of String Net Frequency with Augmented Suffix Arrays
+# Exploiting New Properties of String Net Frequency for Efficient Computation
 
 
 ## Requirements
